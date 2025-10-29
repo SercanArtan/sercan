@@ -5,7 +5,7 @@ import "./App.css";
 const damageStages = [
   {
     face: "🙂",
-    message: "Caner sapasağlam ve moral yerinde.",
+    message: "Sercan sapasağlam ve moral yerinde.",
     bruises: [],
   },
   {
@@ -23,7 +23,7 @@ const damageStages = [
   },
   {
     face: "😵",
-    message: "Caner sendeleyip dizlerinin üzerine çöktü.",
+    message: "Sercan sendeleyip dizlerinin üzerine çöktü.",
     bruises: [
       { cx: 42, cy: 52, r: 16, opacity: 0.45 },
       { cx: 78, cy: 70, r: 12, opacity: 0.38 },
@@ -32,7 +32,7 @@ const damageStages = [
   },
   {
     face: "💀",
-    message: "Caner bayıldı! Bir gül belki onu hayata döndürür.",
+    message: "Sercan bayıldı! Bir gül belki onu hayata döndürür.",
     bruises: [
       { cx: 42, cy: 52, r: 18, opacity: 0.55 },
       { cx: 74, cy: 68, r: 14, opacity: 0.45 },
@@ -118,7 +118,7 @@ function Character({
       }${isDead ? " character--dead" : ""}`}
       role="button"
       tabIndex={0}
-      aria-label="Canerı tıkla, dayak at"
+      aria-label="Sercanı tıkla, dayak at"
       onPointerDown={handlePointerDown}
       onKeyDown={handleKeyDown}
     >
@@ -126,11 +126,11 @@ function Character({
         className="character-figure"
         viewBox="0 0 120 180"
         role="img"
-        aria-labelledby="Caner-ve-aksiyon"
+        aria-labelledby="Sercan-ve-aksiyon"
         ref={svgRef}
       >
-        <title id="Caner-ve-aksiyon">
-          Dayak yiyen ama çiçek de verebilen Caner
+        <title id="Sercan-ve-aksiyon">
+          Dayak yiyen ama çiçek de verebilen Sercan
         </title>
         <defs>
           <linearGradient id="jacketGradient" x1="0" y1="0" x2="0" y2="1">
@@ -675,7 +675,7 @@ function App() {
       <header className="app__header">
         <h1>Dayak ve Çiçek Simülatörü</h1>
         <p>
-          Bir buton dayak atıyor, diğeri kalpleri yumuşatıyor. Caner'in
+          Bir buton dayak atıyor, diğeri kalpleri yumuşatıyor. Sercan'ı
           dayanıklılığına bak ve üç aşamalı hasarı takip et!
         </p>
       </header>
@@ -698,7 +698,7 @@ function App() {
             aria-valuenow={Math.round(healthPercent)}
             aria-valuemin="0"
             aria-valuemax="100"
-            aria-label="Canerın canı"
+            aria-label="Sercanın canı"
           >
             <div
               className="status-panel__meter-fill"
