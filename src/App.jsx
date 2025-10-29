@@ -44,9 +44,9 @@ const damageStages = [
 
 const STATIC_HEAD = {
   url: profileHead,
-  size: 103,
-  offsetX: 0,
-  offsetY: 5,
+  size: 90,
+  offsetX: 2,
+  offsetY: 13,
 };
 
 function Character({
