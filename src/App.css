@@ -1,0 +1,794 @@
+.app {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 60px rgba(20, 30, 50, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.app__header {
+  text-align: center;
+}
+
+.app__header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.app__header p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.app__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.character {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(
+    160deg,
+    rgba(63, 81, 181, 0.35),
+    rgba(26, 35, 126, 0.45)
+  );
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: transform 0.35s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.character--flower {
+  transform: translateY(-6px);
+}
+
+.character--shake {
+  animation: shake-body 0.6s ease-in-out;
+}
+
+.character--dead {
+  animation: collapse 1.1s ease forwards;
+  pointer-events: none;
+}
+
+.character-figure {
+  width: 100%;
+  max-width: 240px;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
+  transition: transform 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.character--shake .character-figure {
+  animation: wobble 0.6s ease-in-out;
+}
+
+.character--flower .character-figure {
+  animation: lean-forward 1.2s ease forwards;
+}
+
+.character-head {
+  fill: #fdd3a8;
+}
+
+.character-leg {
+  fill: url(#pantsGradient);
+}
+
+.character-shirt {
+  fill: url(#shirtGradient);
+}
+
+.character-jacket {
+  fill: url(#jacketGradient);
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.2;
+}
+
+.character-jacket-lapel {
+  fill: rgba(15, 15, 25, 0.95);
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 1.1;
+}
+
+.character-tie-knot {
+  fill: #d50000;
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 0.8;
+}
+
+.character-tie-lower {
+  fill: #ad0000;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 0.8;
+}
+
+.character--shake .character-jacket,
+.character--shake .character-shirt {
+  filter: brightness(1.1);
+}
+
+.character-arm {
+  fill: #fdd3a8;
+}
+
+.character--flower .character-arm--left {
+  transform: rotate(10deg) translate(6px, -2px);
+}
+
+.character-arm--right {
+  transform-origin: 96px 101px;
+  transition: transform 0.4s ease;
+}
+
+.character-arm--left {
+  transform-origin: 24px 101px;
+  transition: transform 0.4s ease;
+}
+
+.character--flower .character-arm--right {
+  transform: rotate(-26deg) translateY(-6px);
+}
+
+.character--dead .character-arm--right,
+.character--dead .character-arm--left {
+  transform: rotate(20deg) translateY(8px);
+}
+
+.character-bruise {
+  fill: #1b2538;
+}
+
+.character-rose {
+  opacity: 0;
+  transform: translate(-160px, 50px) scale(0.18) rotate(-190deg);
+  transform-box: fill-box;
+  transform-origin: 90px 120px;
+}
+
+.character-rose--active {
+  animation: rose-present 1.2s ease forwards;
+}
+
+.character-rose__petals path {
+  filter: drop-shadow(0 4px 8px rgba(203, 49, 92, 0.4));
+}
+
+.character-rose__stem path {
+  stroke-linecap: round;
+}
+
+.character-rose circle,
+.character-rose line,
+.character-rose path {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.character-rainbow {
+  /* Konumu ezmemesi için transform tamamen kapalı */
+  transform: none !important;
+
+  animation: rainbow-in 1.2s ease forwards, rainbow-draw 1.2s ease forwards;
+  opacity: 0;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 12px 18px rgba(236, 96, 255, 0.4));
+  /* Bu iki satır transform kullanmadığımızda şart değil ama sorun çıkarmaz */
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.character-heart-cloud {
+  animation: heart-cloud-rise 1.6s ease-out forwards;
+  transform-origin: center;
+  opacity: 0;
+  transform-box: fill-box;
+}
+
+.character-heart path {
+  fill: url(#heartGradient);
+  stroke: rgba(129, 212, 250, 0.65);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 12px rgba(128, 222, 234, 0.55));
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: heart-beat 1.6s ease-in-out infinite;
+}
+
+.character-heart--left {
+  animation-delay: 0.1s;
+}
+
+.character-heart--center {
+  animation-delay: 0.2s;
+}
+
+.character-heart--right {
+  animation-delay: 0.3s;
+}
+
+.character-heart--left path {
+  animation-delay: 0.1s;
+}
+
+.character-heart--center path {
+  animation-delay: 0.25s;
+}
+
+.character-heart--right path {
+  animation-delay: 0.4s;
+}
+
+.character-hit-flare {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: hit-flare 0.55s ease-out forwards;
+  mix-blend-mode: screen;
+}
+
+/* Örnek animasyon: scale + opacity, translate YOK */
+@keyframes hit-flare {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.character-hit-flare circle:first-of-type {
+  fill: rgba(224, 247, 250, 0.6);
+}
+
+.character-hit-flare circle:last-of-type {
+  fill: rgba(179, 229, 252, 0.25);
+  stroke: rgba(129, 212, 250, 0.7);
+  stroke-width: 1.5;
+}
+
+.character-hit-sparks {
+  stroke: rgba(128, 222, 234, 0.95);
+  stroke-width: 3;
+  stroke-linecap: round;
+  animation: hit-sparks 0.6s ease-out forwards;
+  filter: drop-shadow(0 0 10px rgba(128, 222, 234, 0.65));
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.character-hit-sparks line:nth-of-type(odd) {
+  stroke: rgba(179, 157, 219, 0.85);
+}
+
+.character-stars {
+  transform-origin: 60px 55px;
+  animation: star-orbit 1.6s ease-out forwards;
+  filter: drop-shadow(0 0 12px rgba(255, 241, 118, 0.6));
+}
+
+.character-stars__orbit {
+  transform-origin: 60px 55px;
+}
+
+.character-stars__orbit--outer {
+  animation: star-spin 1.6s linear forwards;
+}
+
+.character-stars__orbit--inner {
+  animation: star-spin-reverse 1.6s linear forwards;
+}
+
+.character-stars polygon {
+  fill: #ffeb3b;
+  opacity: 0.92;
+  transform-origin: center;
+  animation: star-pulse 1.6s ease-in-out forwards;
+}
+
+.character-stars__orbit--inner polygon {
+  fill: #ffec9f;
+}
+
+.character-head-photo {
+  filter: saturate(1.05) contrast(1.1);
+  transition: transform 0.3s ease;
+}
+
+.character--shake .character-head-photo {
+  transform: rotate(-3deg);
+}
+
+.character--shake .character-body,
+.character--shake .character-leg,
+.character--shake .character-arm {
+  filter: brightness(1.18) saturate(1.1);
+}
+
+.character-impact {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: impact-pop 0.22s ease-out, impact-fade 1.4s ease-out 0.22s forwards;
+}
+
+.character-impact circle:first-of-type {
+  fill: rgba(139, 0, 35, 0.75);
+}
+
+.character-impact circle:last-of-type {
+  fill: rgba(255, 120, 140, 0.2);
+}
+
+.character-rose-trail {
+  opacity: 0;
+}
+
+.character-rose-trail circle {
+  fill: rgba(236, 64, 122, 0.5);
+}
+
+.character-rose-trail--active {
+  animation: petal-sparks 1s ease-out forwards;
+}
+
+.character-face {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  font-size: 2.8rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
+.character-face--dead {
+  transform: translateY(6px) scale(1.1);
+  opacity: 0.85;
+  text-shadow: 0 0 22px rgba(255, 255, 255, 0.25);
+}
+
+.character-death-effect {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.character-death-effect__pulse {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  animation: death-pulse 1.4s ease-out infinite;
+}
+
+.character-death-effect__fume {
+  position: absolute;
+  width: 60px;
+  height: 120px;
+  border-radius: 50px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  animation: death-fume 2s ease-in infinite;
+}
+
+.character-death-effect__fume--left {
+  left: 32%;
+  animation-delay: 0.2s;
+}
+
+.character-death-effect__fume--right {
+  right: 32%;
+  animation-delay: 0.6s;
+}
+
+.status-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: rgba(18, 32, 47, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.status-panel__meter {
+  width: 100%;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.status-panel__meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff9800, #ef5350);
+  border-radius: inherit;
+  transition: width 0.35s ease;
+}
+
+.status-panel__health {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.status-panel__message {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.controls__button {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.9rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.controls__button--hit {
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+  box-shadow: 0 14px 24px rgba(229, 57, 53, 0.45);
+}
+
+.controls__button--flower {
+  background: linear-gradient(135deg, #66bb6a, #2e7d32);
+  box-shadow: 0 14px 24px rgba(102, 187, 106, 0.45);
+}
+
+.controls__button--reset {
+  background: linear-gradient(135deg, #ffa726, #fb8c00);
+  box-shadow: 0 14px 24px rgba(255, 167, 38, 0.45);
+}
+
+.controls__button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 32px rgba(0, 0, 0, 0.25);
+}
+
+.controls__button:active {
+  transform: translateY(0);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.22);
+}
+
+@keyframes collapse {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(10px) scale(0.98);
+  }
+  70% {
+    transform: translateY(18px) scaleX(0.96) scaleY(0.94);
+  }
+  100% {
+    transform: translateY(24px) scaleX(0.95) scaleY(0.9);
+  }
+}
+
+@keyframes shake-body {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translate(-6px, -4px);
+  }
+  40% {
+    transform: translate(6px, 4px);
+  }
+  60% {
+    transform: translate(-5px, 2px);
+  }
+  80% {
+    transform: translate(4px, -3px);
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  40% {
+    transform: rotate(6deg);
+  }
+  60% {
+    transform: rotate(-5deg);
+  }
+  80% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes lean-forward {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(6deg);
+  }
+  70%,
+  100% {
+    transform: rotate(2.5deg);
+  }
+}
+
+/* Opacity fade-in */
+@keyframes rainbow-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Yayın çizilme animasyonu (sadece ilk path etkilenir) */
+.character-rainbow path:first-child {
+  animation: rainbow-draw 1.2s ease forwards;
+}
+
+@keyframes rainbow-draw {
+  from {
+    stroke-dashoffset: 180;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rose-present {
+  0% {
+    opacity: 0;
+    transform: translate(-180px, 85px) scale(0.18) rotate(-220deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-40px, 20px) scale(0.85) rotate(-25deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(28px, -16px) scale(1.28) rotate(-8deg);
+  }
+}
+
+@keyframes petal-sparks {
+  0% {
+    opacity: 0;
+    transform: translate(-10px, 10px) scale(0.6);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, -12px) scale(1.2);
+  }
+}
+
+@keyframes heart-cloud-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.7);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+@keyframes heart-beat {
+  0%,
+  100% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes hit-flare {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+@keyframes hit-sparks {
+  0% {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+  70% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes star-orbit {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-6deg);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(0.9) rotate(4deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1) rotate(16deg);
+  }
+}
+
+@keyframes star-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes star-spin-reverse {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes star-pulse {
+  0% {
+    transform: scale(0.7);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+@keyframes impact-pop {
+  0% {
+    transform: scale(0.2);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes impact-fade {
+  0% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes death-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes death-fume {
+  0% {
+    transform: translateY(20px) scaleX(0.8);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-50px) scaleX(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .app {
+    padding: 2rem 1.5rem 2.5rem;
+  }
+
+  .app__header h1 {
+    font-size: 2.2rem;
+  }
+
+  .character-face {
+    bottom: 12px;
+    right: 20px;
+  }
+}
